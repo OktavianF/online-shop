@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="public/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ElegantShop - Simple Online Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+  </head>
+  <body>
+    <div id="app">
+      <header id="main-header">
+        <div class="container">
+          <div class="logo">
+            <h1>ElegantShop</h1>
+          </div>
+          <nav>
+            <ul class="nav-links">
+              <li><a href="#" class="active">Home</a></li>
+              <li><a href="pages/shop.html">Shop</a></li>
+              <li><a href="pages/seller-dashboard.php">Dashboard</a></li>
+              <li><a href="pages/contact.html">Contact</a></li>
+            </ul>
+          </nav>
+          <div class="header-buttons">
+            <button id="search-toggle" class="icon-button" aria-label="Search">
+              <span class="material-icons">search</span>
+            </button>
+            <a href="pages/cart.html" class="icon-button" aria-label="Cart">
+              <span class="material-icons">shopping_cart</span>
+              <span id="cart-count" class="badge">0</span>
+            </a>
+            <div id="user-menu" class="user-menu">
+              <button id="user-menu-toggle" class="icon-button" aria-label="User menu">
+                <span class="material-icons">person</span>
+              </button>
+              <div id="user-dropdown" class="dropdown-menu">
+                <div id="auth-section">
+                  <a href="pages/login.html" class="dropdown-item">Login</a>
+                  <a href="pages/register.html" class="dropdown-item">Register</a>
+                </div>
+                <div id="user-section" class="hidden">
+                  <a href="pages/profile.html" class="dropdown-item">My Profile</a>
+                  <a href="pages/orders.html" class="dropdown-item">My Orders</a>
+                  <a href="pages/seller-dashboard.php" id="seller-dashboard-link" class="dropdown-item hidden">Seller Dashboard</a>
+                  <hr>
+                  <a href="#" id="logout-btn" class="dropdown-item">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="search-bar" class="search-bar">
+          <div class="container">
+            <form id="search-form">
+              <input type="text" id="search-input" placeholder="Search products...">
+              <button type="submit" class="icon-button">
+                <span class="material-icons">search</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="container">
+            <div class="hero-content">
+              <h2>Discover Unique Products</h2>
+              <p>Find the perfect items for your lifestyle</p>
+              <a href="pages/shop.html" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="featured-products">
+          <div class="container">
+            <div class="section-header">
+              <h2>Featured Products</h2>
+              <a href="pages/shop.html" class="view-all">View All</a>
+            </div>
+            <div id="featured-products-grid" class="products-grid">
+              <!-- Products will be loaded here via JavaScript -->
+              <div class="product-loader">
+                <div class="loader"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="categories">
+          <div class="container">
+            <div class="section-header">
+              <h2>Shop by Category</h2>
+            </div>
+            <div class="categories-grid">
+              <a href="pages/shop.html?category=1" class="category-card">
+                <div class="category-icon">
+                  <span class="material-icons">devices</span>
+                </div>
+                <h3>Electronics</h3>
+              </a>
+              <a href="pages/shop.html?category=2" class="category-card">
+                <div class="category-icon">
+                  <span class="material-icons">checkroom</span>
+                </div>
+                <h3>Fashion</h3>
+              </a>
+              <a href="pages/shop.html?category=3" class="category-card">
+                <div class="category-icon">
+                  <span class="material-icons">home</span>
+                </div>
+                <h3>Home & Living</h3>
+              </a>
+              <a href="pages/shop.html?category=4" class="category-card">
+                <div class="category-icon">
+                  <span class="material-icons">fitness_center</span>
+                </div>
+                <h3>Sports</h3>
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>ElegantShop</h3>
+              <p>Your one-stop shop for quality products at affordable prices.</p>
+            </div>
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="pages/shop.html">Shop</a></li>
+                <li><a href="pages/dashboard.html">Dashboard</a></li>
+                <li><a href="pages/contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h3>Contact</h3>
+              <p>Email: info@elegantshop.com</p>
+              <p>Phone: +1 (555) 123-4567</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2025 ElegantShop. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/home.js"></script>
+  </body>
+</html>

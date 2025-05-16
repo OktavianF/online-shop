@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="../public/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop - ElegantShop</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/shop.css">
+  </head>
+  <body>
+    <div id="app">
+      <header id="main-header">
+        <div class="container">
+          <div class="logo">
+            <a href="/">
+              <h1>ElegantShop</h1>
+            </a>
+          </div>
+          <nav>
+            <ul class="nav-links">
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="shop.html" class="active">Shop</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav>
+          <div class="header-buttons">
+            <button id="search-toggle" class="icon-button" aria-label="Search">
+              <span class="material-icons">search</span>
+            </button>
+            <a href="cart.html" class="icon-button" aria-label="Cart">
+              <span class="material-icons">shopping_cart</span>
+              <span id="cart-count" class="badge">0</span>
+            </a>
+            <div id="user-menu" class="user-menu">
+              <button id="user-menu-toggle" class="icon-button" aria-label="User menu">
+                <span class="material-icons">person</span>
+              </button>
+              <div id="user-dropdown" class="dropdown-menu">
+                <div id="auth-section">
+                  <a href="login.html" class="dropdown-item">Login</a>
+                  <a href="register.html" class="dropdown-item">Register</a>
+                </div>
+                <div id="user-section" class="hidden">
+                  <a href="profile.html" class="dropdown-item">My Profile</a>
+                  <a href="orders.html" class="dropdown-item">My Orders</a>
+                  <a href="seller-dashboard.php" id="seller-dashboard-link" class="dropdown-item hidden">Seller Dashboard</a>
+                  <hr>
+                  <a href="#" id="logout-btn" class="dropdown-item">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="search-bar" class="search-bar">
+          <div class="container">
+            <form id="search-form">
+              <input type="text" id="search-input" placeholder="Search products...">
+              <button type="submit" class="icon-button">
+                <span class="material-icons">search</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="container">
+          <div class="shop-page">
+            <aside class="shop-sidebar">
+              <div class="sidebar-section filter-section">
+                <h3>Filters</h3>
+                <div class="filter-group">
+                  <h4>Categories</h4>
+                  <div class="filter-options">
+                    <div class="filter-option">
+                      <input type="checkbox" id="category-all" name="category" value="all" checked>
+                      <label for="category-all">All Categories</label>
+                    </div>
+                    <div class="filter-option">
+                      <input type="checkbox" id="category-electronics" name="category" value="1">
+                      <label for="category-electronics">Electronics</label>
+                    </div>
+                    <div class="filter-option">
+                      <input type="checkbox" id="category-fashion" name="category" value="2">
+                      <label for="category-fashion">Fashion</label>
+                    </div>
+                    <div class="filter-option">
+                      <input type="checkbox" id="category-home" name="category" value="3">
+                      <label for="category-home">Home & Living</label>
+                    </div>
+                    <div class="filter-option">
+                      <input type="checkbox" id="category-sports" name="category" value="4">
+                      <label for="category-sports">Sports</label>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="filter-group">
+                  <h4>Price Range</h4>
+                  <div class="price-range">
+                    <div class="price-inputs">
+                      <div class="price-input">
+                        <label for="min-price">Min</label>
+                        <input type="number" id="min-price" name="min_price" placeholder="0" min="0">
+                      </div>
+                      <div class="price-divider">-</div>
+                      <div class="price-input">
+                        <label for="max-price">Max</label>
+                        <input type="number" id="max-price" name="max_price" placeholder="Max" min="0">
+                      </div>
+                    </div>
+                    <button id="apply-price" class="btn btn-sm btn-outline">Apply</button>
+                  </div>
+                </div>
+                
+                <button id="clear-filters" class="btn btn-outline btn-block">Clear Filters</button>
+              </div>
+            </aside>
+            
+            <div class="shop-content">
+              <div class="shop-header">
+                <h2>All Products</h2>
+                <div class="shop-controls">
+                  <div class="shop-view-toggle">
+                    <button class="view-btn active" data-view="grid">
+                      <span class="material-icons">grid_view</span>
+                    </button>
+                    <button class="view-btn" data-view="list">
+                      <span class="material-icons">view_list</span>
+                    </button>
+                  </div>
+                  <div class="shop-sort">
+                    <select id="sort-products">
+                      <option value="created_at-desc">Newest</option>
+                      <option value="price-asc">Price: Low to High</option>
+                      <option value="price-desc">Price: High to Low</option>
+                      <option value="name-asc">Name: A to Z</option>
+                      <option value="name-desc">Name: Z to A</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div id="products-container" class="products-grid">
+                <!-- Products will be loaded here via JavaScript -->
+                <div class="product-loader">
+                  <div class="loader"></div>
+                </div>
+              </div>
+              
+              <div id="pagination" class="pagination">
+                <!-- Pagination will be generated here -->
+              </div>
+              
+              <div id="no-products" class="no-products hidden">
+                <div class="no-products-icon">
+                  <span class="material-icons">inventory_2</span>
+                </div>
+                <h3>No products found</h3>
+                <p>Try adjusting your filters or search terms.</p>
+                <button id="reset-filters" class="btn btn-primary">Reset Filters</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>ElegantShop</h3>
+              <p>Your one-stop shop for quality products at affordable prices.</p>
+            </div>
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h3>Contact</h3>
+              <p>Email: info@elegantshop.com</p>
+              <p>Phone: +1 (555) 123-4567</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2025 ElegantShop. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/shop.js"></script>
+  </body>
+</html>  

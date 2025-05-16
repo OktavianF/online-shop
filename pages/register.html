@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="../public/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - ElegantShop</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+  </head>
+  <body>
+    <div id="app">
+      <header id="main-header">
+        <div class="container">
+          <div class="logo">
+            <a href="#">
+              <h1>ElegantShop</h1>
+            </a>
+          </div>
+          <nav>
+            <ul class="nav-links">
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav> 
+          <div class="header-buttons">
+            <a href="cart.html" class="icon-button" aria-label="Cart">
+              <span class="material-icons">shopping_cart</span>
+              <span id="cart-count" class="badge">0</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="auth-container">
+          <div class="auth-card">
+            <h2>Create an Account</h2>
+            <p class="auth-subtitle">Join us to start shopping!</p>
+            
+            <div id="register-error" class="auth-error hidden"></div>
+            <div id="register-success" class="auth-success hidden"></div>
+            
+            <form id="register-form" class="auth-form">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  required 
+                  placeholder="Enter your full name"
+                >
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  required 
+                  placeholder="Enter your email"
+                >
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">Phone (Optional)</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone" 
+                  placeholder="Enter your phone number"
+                >
+              </div>
+              
+              <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-field">
+                  <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required 
+                    placeholder="Create a password"
+                  >
+                  <button type="button" class="toggle-password">
+                    <span class="material-icons">visibility</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <div class="password-field">
+                  <input 
+                    type="password" 
+                    id="confirm-password" 
+                    name="confirm-password" 
+                    required 
+                    placeholder="Confirm your password"
+                  >
+                  <button type="button" class="toggle-password">
+                    <span class="material-icons">visibility</span>
+                  </button>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn btn-primary btn-block">
+                Register
+              </button>
+            </form>
+            
+            <div class="auth-footer">
+              <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>ElegantShop</h3>
+              <p>Your one-stop shop for quality products at affordable prices.</p>
+            </div>
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h3>Contact</h3>
+              <p>Email: info@elegantshop.com</p>
+              <p>Phone: +1 (555) 123-4567</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2025 ElegantShop. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+  </body>
+</html> 

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="../public/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - ElegantShop</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+  </head>
+  <body>
+    <div id="app">
+      <header id="main-header">
+        <div class="container">
+          <div class="logo">
+            <a href="#">
+              <h1>ElegantShop</h1>
+            </a>
+          </div>
+          <nav>
+            <ul class="nav-links">
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav>
+          <div class="header-buttons">
+            <a href="cart.html" class="icon-button" aria-label="Cart">
+              <span class="material-icons">shopping_cart</span>
+              <span id="cart-count" class="badge">0</span>
+            </a>
+            <div id="user-menu" class="user-menu">
+              <button id="user-menu-toggle" class="icon-button" aria-label="User menu">
+                <span class="material-icons">person</span>
+              </button>
+              <div id="user-dropdown" class="dropdown-menu">
+                <div id="auth-section">
+                  <a href="login.html" class="dropdown-item">Login</a>
+                  <a href="register.html" class="dropdown-item">Register</a>
+                </div>
+                <div id="user-section" class="hidden">
+                  <a href="profile.html" class="dropdown-item">My Profile</a>
+                  <a href="orders.html" class="dropdown-item">My Orders</a>
+                  <a href="seller-dashboard.php" id="seller-dashboard-link" class="dropdown-item hidden">Seller Dashboard</a>
+                  <hr>
+                  <a href="#" id="logout-btn" class="dropdown-item">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="container">
+          <div class="checkout-page">
+            <h2>Checkout</h2>
+            
+            <div class="checkout-progress">
+              <div class="progress-step active">
+                <div class="step-number">1</div>
+                <div class="step-label">Shipping</div>
+              </div>
+              <div class="progress-line"></div>
+              <div class="progress-step">
+                <div class="step-number">2</div>
+                <div class="step-label">Payment</div>
+              </div>
+              <div class="progress-line"></div>
+              <div class="progress-step">
+                <div class="step-number">3</div>
+                <div class="step-label">Review</div>
+              </div>
+            </div>
+            
+            <form id="checkout-form" class="checkout-form">
+              <!-- Step 1: Shipping -->
+              <div id="shipping-step" class="checkout-step active">
+                <h3>Shipping Address</h3>
+                
+                <div id="saved-addresses" class="saved-addresses hidden">
+                  <h4>Your Addresses</h4>
+                  <div id="address-list" class="address-list">
+                    <!-- Saved addresses will be loaded here -->
+                  </div>
+                  <button type="button" id="add-new-address-btn" class="btn btn-outline btn-sm">
+                    <span class="material-icons">add</span> Add New Address
+                  </button>
+                </div>
+                
+                <div id="address-form" class="address-form">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="full-name">Full Name</label>
+                      <input type="text" id="full-name" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="phone">Phone Number</label>
+                      <input type="tel" id="phone" name="phone" required>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="address-line1">Address Line 1</label>
+                    <input type="text" id="address-line1" name="address_line1" required placeholder="Street address, P.O. box, company name">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="address-line2">Address Line 2 (Optional)</label>
+                    <input type="text" id="address-line2" name="address_line2" placeholder="Apartment, suite, unit, building, floor, etc.">
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="city">City</label>
+                      <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="postal-code">Postal Code</label>
+                      <input type="text" id="postal-code" name="postal_code" required>
+                    </div>
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="province">Province</label>
+                      <input type="text" id="province" name="province" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="country">Country</label>
+                      <select id="country" name="country" required>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="Vietnam">Vietnam</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group checkbox-group">
+                    <input type="checkbox" id="save-address" name="save_address">
+                    <label for="save-address">Save this address for future orders</label>
+                  </div>
+                </div>
+                
+                <div class="step-actions">
+                  <a href="cart.html" class="btn btn-outline">Back to Cart</a>
+                  <button type="button" id="to-payment-btn" class="btn btn-primary">Continue to Payment</button>
+                </div>
+              </div>
+              
+              <!-- Step 2: Payment -->
+              <div id="payment-step" class="checkout-step">
+                <h3>Payment Method</h3>
+                
+                <div class="payment-methods">
+                  <div class="payment-method">
+                    <input type="radio" id="credit-card" name="payment_method" value="credit_card" checked>
+                    <label for="credit-card">
+                      <div class="payment-method-icon">
+                        <span class="material-icons">credit_card</span>
+                      </div>
+                      <div class="payment-method-details">
+                        <div class="payment-method-name">Credit/Debit Card</div>
+                        <div class="payment-method-description">Pay with Visa, Mastercard, or American Express</div>
+                      </div>
+                    </label>
+                  </div>
+                  
+                  <div class="payment-method">
+                    <input type="radio" id="bank-transfer" name="payment_method" value="bank_transfer">
+                    <label for="bank-transfer">
+                      <div class="payment-method-icon">
+                        <span class="material-icons">account_balance</span>
+                      </div>
+                      <div class="payment-method-details">
+                        <div class="payment-method-name">Bank Transfer</div>
+                        <div class="payment-method-description">Pay via bank transfer to our account</div>
+                      </div>
+                    </label>
+                  </div>
+                  
+                  <div class="payment-method">
+                    <input type="radio" id="e-wallet" name="payment_method" value="e_wallet">
+                    <label for="e-wallet">
+                      <div class="payment-method-icon">
+                        <span class="material-icons">account_balance_wallet</span>
+                      </div>
+                      <div class="payment-method-details">
+                        <div class="payment-method-name">E-Wallet</div>
+                        <div class="payment-method-description">Pay with GoPay, OVO, or DANA</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                
+                <div id="credit-card-form" class="payment-form">
+                  <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" name="card_number" placeholder="1234 5678 9012 3456">
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="expiry-date">Expiry Date</label>
+                      <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                      <label for="cvv">CVV</label>
+                      <input type="text" id="cvv" name="cvv" placeholder="123">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="card-name">Name on Card</label>
+                    <input type="text" id="card-name" name="card_name">
+                  </div>
+                </div>
+                
+                <div id="bank-transfer-form" class="payment-form hidden">
+                  <div class="bank-info">
+                    <h4>Bank Account Details</h4>
+                    <p>Please transfer the total amount to the following bank account:</p>
+                    <ul>
+                      <li><strong>Bank Name:</strong> Bank Central Asia (BCA)</li>
+                      <li><strong>Account Number:</strong> 1234567890</li>
+                      <li><strong>Account Name:</strong> PT ElegantShop Indonesia</li>
+                    </ul>
+                    <p>Please use your Order ID as the payment reference.</p>
+                  </div>
+                </div>
+                
+                <div id="e-wallet-form" class="payment-form hidden">
+                  <div class="e-wallet-options">
+                    <div class="e-wallet-option">
+                      <input type="radio" id="gopay" name="e_wallet_provider" value="gopay" checked>
+                      <label for="gopay">GoPay</label>
+                    </div>
+                    <div class="e-wallet-option">
+                      <input type="radio" id="ovo" name="e_wallet_provider" value="ovo">
+                      <label for="ovo">OVO</label>
+                    </div>
+                    <div class="e-wallet-option">
+                      <input type="radio" id="dana" name="e_wallet_provider" value="dana">
+                      <label for="dana">DANA</label>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="phone-number">Phone Number</label>
+                    <input type="tel" id="phone-number" name="phone_number" placeholder="e.g., 08123456789">
+                  </div>
+                </div>
+                
+                <div class="step-actions">
+                  <button type="button" id="back-to-shipping-btn" class="btn btn-outline">Back to Shipping</button>
+                  <button type="button" id="to-review-btn" class="btn btn-primary">Continue to Review</button>
+                </div>
+              </div>
+              
+              <!-- Step 3: Review -->
+              <div id="review-step" class="checkout-step">
+                <h3>Order Review</h3>
+                
+                <div class="review-section">
+                  <div class="review-header">
+                    <h4>Items</h4>
+                    <a href="cart.html" class="edit-link">Edit</a>
+                  </div>
+                  <div id="review-items" class="review-items">
+                    <!-- Order items will be loaded here -->
+                  </div>
+                </div>
+                
+                <div class="review-section">
+                  <div class="review-header">
+                    <h4>Shipping Address</h4>
+                    <button type="button" id="edit-shipping-btn" class="edit-link">Edit</button>
+                  </div>
+                  <div id="review-address" class="review-address">
+                    <!-- Shipping address will be loaded here -->
+                  </div>
+                </div>
+                
+                <div class="review-section">
+                  <div class="review-header">
+                    <h4>Payment Method</h4>
+                    <button type="button" id="edit-payment-btn" class="edit-link">Edit</button>
+                  </div>
+                  <div id="review-payment" class="review-payment">
+                    <!-- Payment method will be loaded here -->
+                  </div>
+                </div>
+                
+                <div class="review-section">
+                  <div class="review-header">
+                    <h4>Order Summary</h4>
+                  </div>
+                  <div class="review-summary">
+                    <div class="summary-item">
+                      <span>Subtotal</span>
+                      <span id="review-subtotal">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Shipping</span>
+                      <span id="review-shipping">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Tax</span>
+                      <span id="review-tax">Rp 0</span>
+                    </div>
+                    <div class="summary-item total">
+                      <span>Total</span>
+                      <span id="review-total">Rp 0</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                  <input type="checkbox" id="agree-terms" name="agree_terms" required>
+                  <label for="agree-terms">I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a></label>
+                </div>
+                
+                <div class="step-actions">
+                  <button type="button" id="back-to-payment-btn" class="btn btn-outline">Back to Payment</button>
+                  <button type="submit" id="place-order-btn" class="btn btn-primary">Place Order</button>
+                </div>
+              </div>
+            </form>
+            
+            <div id="order-success" class="order-success hidden">
+              <div class="success-icon">
+                <span class="material-icons">check_circle</span>
+              </div>
+              <h3>Order Placed Successfully!</h3>
+              <p>Thank you for your purchase. Your order has been placed successfully.</p>
+              <div class="order-info">
+                <p>Order ID: <span id="order-id">ORD123456</span></p>
+                <p>A confirmation email has been sent to your email address.</p>
+              </div>
+              <div class="success-actions">
+                <a href="orders.html" class="btn btn-primary">View Orders</a>
+                <a href="#" class="btn btn-outline">Continue Shopping</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>ElegantShop</h3>
+              <p>Your one-stop shop for quality products at affordable prices.</p>
+            </div>
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h3>Contact</h3>
+              <p>Email: info@elegantshop.com</p>
+              <p>Phone: +1 (555) 123-4567</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2025 ElegantShop. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/checkout.js"></script>
+  </body>
+</html>

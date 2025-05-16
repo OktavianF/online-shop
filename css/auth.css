@@ -1,0 +1,144 @@
+/* Auth Pages Styles */
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 140px);
+  padding: var(--spacing-4);
+}
+
+.auth-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 450px;
+  padding: var(--spacing-5);
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-gray-900);
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: var(--color-gray-600);
+  margin-bottom: var(--spacing-4);
+}
+
+.auth-form {
+  margin-bottom: var(--spacing-4);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-3);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-1);
+  font-weight: 500;
+  color: var(--color-gray-800);
+}
+
+.form-group input {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast);
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.password-field {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: var(--spacing-3);
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.toggle-password:hover {
+  color: var(--color-gray-700);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-3);
+  font-size: 0.875rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.remember-me input {
+  margin-right: var(--spacing-1);
+}
+
+.forgot-password {
+  color: var(--color-primary);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.auth-footer {
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.auth-error {
+  background-color: rgba(217, 4, 41, 0.1);
+  color: var(--color-error);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-3);
+  font-size: 0.875rem;
+}
+
+.auth-success {
+  background-color: rgba(2, 195, 154, 0.1);
+  color: var(--color-success);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-3);
+  font-size: 0.875rem;
+}
+
+/* Animation */
+.auth-card {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
