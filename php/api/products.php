@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once '../config.php';
 
 // Set headers
@@ -57,7 +61,7 @@ function get_products() {
     $sort_dir = isset($_GET['sort_dir']) && strtolower($_GET['sort_dir']) === 'asc' ? 'ASC' : 'DESC';
     
     // Build query
-    $query = "SELECT p.*, u.name as seller_name 
+    $query = "SELECT p.*, p.image AS image_url, u.name as seller_name 
               FROM produk p 
               JOIN pengguna u ON p.user_id = u.id 
               WHERE 1=1";
@@ -139,10 +143,6 @@ function get_products() {
     $count_result = db_query($count_query, $count_params);
     $total = pg_fetch_result($count_result, 0, 0);
     
-    // Check if we need to return mock data for development
-    if (empty($products) && getenv('APP_ENV') === 'development') {
-        $products = get_mock_products($category_id, $limit);
-    }
     
     // Return products
     json_response([
@@ -163,7 +163,7 @@ function get_product($id) {
     }
     
     // Get product from database
-    $query = "SELECT p.*, u.name as seller_name 
+    $query = "SELECT p.*, p.image AS image_url, u.name as seller_name 
               FROM produk p 
               JOIN pengguna u ON p.user_id = u.id 
               WHERE p.id = $1";
@@ -171,14 +171,6 @@ function get_product($id) {
     $result = db_query($query, [$id]);
     
     if (pg_num_rows($result) === 0) {
-        // Check if we need to return mock data for development
-        if (getenv('APP_ENV') === 'development') {
-            $product = get_mock_product($id);
-            if ($product) {
-                json_response($product);
-            }
-        }
-        
         json_error("Product not found", 404);
     }
     
@@ -254,7 +246,7 @@ function create_product() {
     $product_id = pg_fetch_result($result, 0, 0);
     
     // Get the created product
-    $get_query = "SELECT p.*, u.name as seller_name 
+    $get_query = "SELECT p.*, p.image AS image_url, u.name as seller_name 
                   FROM produk p 
                   JOIN pengguna u ON p.user_id = u.id 
                   WHERE p.id = $1";
@@ -385,7 +377,7 @@ function update_product() {
     }
     
     // Get the updated product
-    $get_query = "SELECT p.*, u.name as seller_name 
+    $get_query = "SELECT p.*, p.image AS image_url, u.name as seller_name 
                   FROM produk p 
                   JOIN pengguna u ON p.user_id = u.id 
                   WHERE p.id = $1";
@@ -448,168 +440,4 @@ function delete_product() {
         "success" => true,
         "message" => "Product deleted successfully"
     ]);
-}
-
-// Get mock products for development
-function get_mock_products($category_id = null, $limit = 10) {
-    $products = [
-        [
-            "id" => 1,
-            "name" => "Wireless Headphones",
-            "description" => "High-quality wireless headphones with noise cancellation technology.",
-            "price" => 1500000,
-            "category_id" => 1,
-            "user_id" => 1,
-            "seller_name" => "TechStore",
-            "stock" => 50,
-            "is_featured" => true,
-            "image" => "https://images.pexels.com/photos/3394666/pexels-photo-3394666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-15 10:00:00"
-        ],
-        [
-            "id" => 2,
-            "name" => "Casual T-Shirt",
-            "description" => "Comfortable cotton t-shirt for everyday wear.",
-            "price" => 249000,
-            "category_id" => 2,
-            "user_id" => 2,
-            "seller_name" => "FashionHub",
-            "stock" => 100,
-            "is_featured" => true,
-            "image" => "https://images.pexels.com/photos/5698853/pexels-photo-5698853.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-10 14:30:00"
-        ],
-        [
-            "id" => 3,
-            "name" => "Smart Watch",
-            "description" => "Fitness tracker and smartwatch with heart rate monitoring.",
-            "price" => 899000,
-            "category_id" => 1,
-            "user_id" => 1,
-            "seller_name" => "TechStore",
-            "stock" => 30,
-            "is_featured" => true,
-            "image" => "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-20 09:15:00"
-        ],
-        [
-            "id" => 4,
-            "name" => "Coffee Maker",
-            "description" => "Automatic coffee maker for home and office use.",
-            "price" => 750000,
-            "category_id" => 3,
-            "user_id" => 3,
-            "seller_name" => "HomeEssentials",
-            "stock" => 20,
-            "is_featured" => true,
-            "image" => "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-18 11:20:00"
-        ],
-        [
-            "id" => 5,
-            "name" => "Desk Lamp",
-            "description" => "LED desk lamp with adjustable brightness and color temperature.",
-            "price" => 350000,
-            "category_id" => 3,
-            "user_id" => 3,
-            "seller_name" => "HomeEssentials",
-            "stock" => 40,
-            "is_featured" => false,
-            "image" => "https://images.pexels.com/photos/1112598/pexels-photo-1112598.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-25 15:45:00"
-        ],
-        [
-            "id" => 6,
-            "name" => "Running Shoes",
-            "description" => "Lightweight running shoes with cushioned soles for maximum comfort.",
-            "price" => 800000,
-            "category_id" => 4,
-            "user_id" => 4,
-            "seller_name" => "SportyGear",
-            "stock" => 25,
-            "is_featured" => false,
-            "image" => "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-22 13:10:00"
-        ],
-        [
-            "id" => 7,
-            "name" => "Denim Jacket",
-            "description" => "Classic denim jacket for men and women.",
-            "price" => 650000,
-            "category_id" => 2,
-            "user_id" => 2,
-            "seller_name" => "FashionHub",
-            "stock" => 15,
-            "is_featured" => false,
-            "image" => "https://images.pexels.com/photos/5235413/pexels-photo-5235413.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-28 10:30:00"
-        ],
-        [
-            "id" => 8,
-            "name" => "Portable Speaker",
-            "description" => "Waterproof Bluetooth speaker with 20-hour battery life.",
-            "price" => 450000,
-            "category_id" => 1,
-            "user_id" => 1,
-            "seller_name" => "TechStore",
-            "stock" => 35,
-            "is_featured" => false,
-            "image" => "https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-01-30 16:20:00"
-        ],
-        [
-            "id" => 9,
-            "name" => "Yoga Mat",
-            "description" => "Non-slip yoga mat for home and gym workouts.",
-            "price" => 200000,
-            "category_id" => 4,
-            "user_id" => 4,
-            "seller_name" => "SportyGear",
-            "stock" => 50,
-            "is_featured" => false,
-            "image" => "https://images.pexels.com/photos/4757986/pexels-photo-4757986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-02-01 09:45:00"
-        ],
-        [
-            "id" => 10,
-            "name" => "Ceramic Plant Pot",
-            "description" => "Decorative ceramic pot for indoor plants.",
-            "price" => 125000,
-            "category_id" => 3,
-            "user_id" => 3,
-            "seller_name" => "HomeEssentials",
-            "stock" => 60,
-            "is_featured" => false,
-            "image" => "https://images.pexels.com/photos/5282058/pexels-photo-5282058.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            "created_at" => "2025-02-03 12:15:00"
-        ]
-    ];
-    
-    // Filter by category if provided
-    if ($category_id !== null) {
-        $filtered_products = array_filter($products, function($product) use ($category_id) {
-            return $product['category_id'] == $category_id;
-        });
-        $products = array_values($filtered_products);
-    }
-    
-    // Limit number of products
-    if (count($products) > $limit) {
-        $products = array_slice($products, 0, $limit);
-    }
-    
-    return $products;
-}
-
-// Get mock product by ID for development
-function get_mock_product($id) {
-    $products = get_mock_products();
-    
-    foreach ($products as $product) {
-        if ($product['id'] == $id) {
-            return $product;
-        }
-    }
-    
-    return null;
 }

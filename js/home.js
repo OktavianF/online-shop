@@ -11,19 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
 // Fetch Featured Products
 async function fetchFeaturedProducts() {
   try {
-    const response = await fetch('../php/api/products.php?featured=1');
+    const response = await fetch('/online-shop/php/api/products.php?featured=1');
     
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     
-    const products = await response.json();
+    const result = await response.json();
+    const products = result.products || [];
     displayFeaturedProducts(products);
   } catch (error) {
     console.error('Error fetching featured products:', error);
     
     // For development purposes, load mock data if API fails
-    displayFeaturedProducts(getMockProducts());
+    featuredProductsGrid.innerHTML = '<p class="no-products">Gagal memuat produk dari database.</p>';
   }
 }
 
@@ -51,8 +52,10 @@ function createProductCard(product) {
   const card = document.createElement('div');
   card.className = 'product-card';
   
+  const imageUrl = product.image_url ? `/online-shop/${product.image_url.replace(/^\/?online-shop\//, '')}` : '/online-shop/img/default.jpg';
+  
   card.innerHTML = `
-    <img src="${product.image}" alt="${product.name}" class="product-image">
+    <img src="${imageUrl}" alt="${product.name}">
     <div class="product-info">
       <h3 class="product-name">${product.name}</h3>
       <p class="product-description">${product.description}</p>
@@ -75,42 +78,4 @@ function createProductCard(product) {
   });
   
   return card;
-}
-
-// Mock Products Data for Development
-function getMockProducts() {
-  return [
-    {
-      id: 1,
-      name: 'Wireless Headphones',
-      description: 'High-quality wireless headphones with noise cancellation technology.',
-      price: 1500000,
-      image: 'https://images.pexels.com/photos/3394666/pexels-photo-3394666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      category_id: 1
-    },
-    {
-      id: 2,
-      name: 'Casual T-Shirt',
-      description: 'Comfortable cotton t-shirt for everyday wear.',
-      price: 249000,
-      image: 'https://images.pexels.com/photos/5698853/pexels-photo-5698853.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      category_id: 2
-    },
-    {
-      id: 3,
-      name: 'Smart Watch',
-      description: 'Fitness tracker and smartwatch with heart rate monitoring.',
-      price: 899000,
-      image: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      category_id: 1
-    },
-    {
-      id: 4,
-      name: 'Coffee Maker',
-      description: 'Automatic coffee maker for home and office use.',
-      price: 750000,
-      image: 'https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      category_id: 3
-    }
-  ];
 }

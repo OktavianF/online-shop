@@ -2,7 +2,7 @@
 // Database connection settings
 $host = "localhost";
 $port = "5432";
-$dbname = "onlineShop2";
+$dbname = "online-shop";
 $user = "postgres";
 $password = "postgres";
 
@@ -12,7 +12,7 @@ function db_connect() {
     
     $connection_string = "host=$host port=$port dbname=$dbname user=$user password=$password";
     
-    $conn = pg_connect($connection_string);
+    $conn = pg_pconnect($connection_string);
     
     if (!$conn) {
         die("Connection failed: " . pg_last_error());

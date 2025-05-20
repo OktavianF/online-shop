@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS alamat_pengguna (
     province VARCHAR(100) NOT NULL,
     postal_code VARCHAR(20) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    is_default BOOLEAN DEFAULT FALSE,
+    is_default BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
 );

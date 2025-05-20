@@ -134,15 +134,7 @@ async function fetchProducts() {
     updateUrl();
   } catch (error) {
     console.error('Error fetching products:', error);
-    
-    // For development purposes, load mock data
-    const mockData = getMockProducts();
-    state.products = mockData.products;
-    state.totalPages = Math.ceil(mockData.total / state.itemsPerPage);
-    
-    // Render products and pagination
-    renderProducts();
-    renderPagination();
+    productsContainer.innerHTML = '<p class="no-products">Gagal memuat produk dari database.</p>';
   }
 }
 
@@ -176,9 +168,13 @@ function renderProducts() {
 function createProductCard(product) {
   const card = document.createElement('div');
   card.className = 'product-card';
-  
+
+  const imageUrl = product.image
+    ? `/online-shop/${product.image.replace(/^\/?online-shop\//, '')}`
+    : '/online-shop/img/default.jpg';
+
   card.innerHTML = `
-    <img src="${product.image}" alt="${product.name}" class="product-image">
+    <img src="${imageUrl}" alt="${product.name}" class="product-image">
     <div class="product-info">
       <h3 class="product-name">${product.name}</h3>
       <p class="product-description">${product.description}</p>
@@ -191,7 +187,7 @@ function createProductCard(product) {
       </div>
     </div>
   `;
-  
+
   // Add event listener to the add to cart button
   const addToCartBtn = card.querySelector('.add-to-cart');
   addToCartBtn.addEventListener('click', (e) => {
@@ -199,7 +195,7 @@ function createProductCard(product) {
     const { id, name, price, image } = e.currentTarget.dataset;
     addToCart(id, name, parseFloat(price), 1, image);
   });
-  
+
   return card;
 }
 
@@ -488,221 +484,3 @@ function parseUrlParams() {
   }
 }
 
-// Mock Products Data for Development
-function getMockProducts() {
-  const allProducts = [
-    {
-      id: 1,
-      name: 'Wireless Headphones',
-      description: 'High-quality wireless headphones with noise cancellation technology.',
-      price: 1500000,
-      category_id: 1,
-      user_id: 1,
-      seller_name: 'TechStore',
-      stock: 50,
-      is_featured: true,
-      image: 'https://images.pexels.com/photos/3394666/pexels-photo-3394666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-15 10:00:00'
-    },
-    {
-      id: 2,
-      name: 'Casual T-Shirt',
-      description: 'Comfortable cotton t-shirt for everyday wear.',
-      price: 249000,
-      category_id: 2,
-      user_id: 2,
-      seller_name: 'FashionHub',
-      stock: 100,
-      is_featured: true,
-      image: 'https://images.pexels.com/photos/5698853/pexels-photo-5698853.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-10 14:30:00'
-    },
-    {
-      id: 3,
-      name: 'Smart Watch',
-      description: 'Fitness tracker and smartwatch with heart rate monitoring.',
-      price: 899000,
-      category_id: 1,
-      user_id: 1,
-      seller_name: 'TechStore',
-      stock: 30,
-      is_featured: true,
-      image: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-20 09:15:00'
-    },
-    {
-      id: 4,
-      name: 'Coffee Maker',
-      description: 'Automatic coffee maker for home and office use.',
-      price: 750000,
-      category_id: 3,
-      user_id: 3,
-      seller_name: 'HomeEssentials',
-      stock: 20,
-      is_featured: true,
-      image: 'https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-18 11:20:00'
-    },
-    {
-      id: 5,
-      name: 'Desk Lamp',
-      description: 'LED desk lamp with adjustable brightness and color temperature.',
-      price: 350000,
-      category_id: 3,
-      user_id: 3,
-      seller_name: 'HomeEssentials',
-      stock: 40,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/1112598/pexels-photo-1112598.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-25 15:45:00'
-    },
-    {
-      id: 6,
-      name: 'Running Shoes',
-      description: 'Lightweight running shoes with cushioned soles for maximum comfort.',
-      price: 800000,
-      category_id: 4,
-      user_id: 4,
-      seller_name: 'SportyGear',
-      stock: 25,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-22 13:10:00'
-    },
-    {
-      id: 7,
-      name: 'Denim Jacket',
-      description: 'Classic denim jacket for men and women.',
-      price: 650000,
-      category_id: 2,
-      user_id: 2,
-      seller_name: 'FashionHub',
-      stock: 15,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/5235413/pexels-photo-5235413.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-28 10:30:00'
-    },
-    {
-      id: 8,
-      name: 'Portable Speaker',
-      description: 'Waterproof Bluetooth speaker with 20-hour battery life.',
-      price: 450000,
-      category_id: 1,
-      user_id: 1,
-      seller_name: 'TechStore',
-      stock: 35,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-01-30 16:20:00'
-    },
-    {
-      id: 9,
-      name: 'Yoga Mat',
-      description: 'Non-slip yoga mat for home and gym workouts.',
-      price: 200000,
-      category_id: 4,
-      user_id: 4,
-      seller_name: 'SportyGear',
-      stock: 50,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/4757986/pexels-photo-4757986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-02-01 09:45:00'
-    },
-    {
-      id: 10,
-      name: 'Ceramic Plant Pot',
-      description: 'Decorative ceramic pot for indoor plants.',
-      price: 125000,
-      category_id: 3,
-      user_id: 3,
-      seller_name: 'HomeEssentials',
-      stock: 60,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/5282058/pexels-photo-5282058.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-02-03 12:15:00'
-    },
-    {
-      id: 11,
-      name: 'Digital Camera',
-      description: '24MP digital camera with 4K video recording capability.',
-      price: 3500000,
-      category_id: 1,
-      user_id: 1,
-      seller_name: 'TechStore',
-      stock: 10,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-02-05 08:30:00'
-    },
-    {
-      id: 12,
-      name: 'Summer Dress',
-      description: 'Lightweight floral dress perfect for summer days.',
-      price: 399000,
-      category_id: 2,
-      user_id: 2,
-      seller_name: 'FashionHub',
-      stock: 25,
-      is_featured: false,
-      image: 'https://images.pexels.com/photos/1021693/pexels-photo-1021693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      created_at: '2025-02-07 14:40:00'
-    }
-  ];
-  
-  // Filter products based on state filters
-  let filteredProducts = [...allProducts];
-  
-  // Filter by categories
-  if (state.filters.categories.length > 0) {
-    filteredProducts = filteredProducts.filter(product =>
-      state.filters.categories.includes(product.category_id.toString())
-    );
-  }
-  
-  // Filter by price
-  if (state.filters.minPrice !== null) {
-    filteredProducts = filteredProducts.filter(product => product.price >= state.filters.minPrice);
-  }
-  
-  if (state.filters.maxPrice !== null) {
-    filteredProducts = filteredProducts.filter(product => product.price <= state.filters.maxPrice);
-  }
-  
-  // Filter by search term
-  if (state.filters.search) {
-    const searchTerm = state.filters.search.toLowerCase();
-    filteredProducts = filteredProducts.filter(product =>
-      product.name.toLowerCase().includes(searchTerm) ||
-      product.description.toLowerCase().includes(searchTerm)
-    );
-  }
-  
-  // Sort products
-  filteredProducts.sort((a, b) => {
-    let comparison = 0;
-    
-    switch (state.sortBy) {
-      case 'price':
-        comparison = a.price - b.price;
-        break;
-      case 'name':
-        comparison = a.name.localeCompare(b.name);
-        break;
-      case 'created_at':
-      default:
-        comparison = new Date(b.created_at) - new Date(a.created_at);
-        break;
-    }
-    
-    return state.sortDirection === 'asc' ? comparison : -comparison;
-  });
-  
-  // Paginate products
-  const startIndex = (state.currentPage - 1) * state.itemsPerPage;
-  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + state.itemsPerPage);
-  
-  return {
-    products: paginatedProducts,
-    total: filteredProducts.length
-  };
-}
