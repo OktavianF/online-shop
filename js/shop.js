@@ -169,9 +169,21 @@ function createProductCard(product) {
   const card = document.createElement('div');
   card.className = 'product-card';
 
-  const imageUrl = product.image
-    ? `/online-shop/${product.image.replace(/^\/?online-shop\//, '')}`
-    : '/online-shop/img/default.jpg';
+  let imageUrl = '/online-shop/img/default.jpg';
+  const imgSrc = product.image || product.image_url;
+  if (typeof imgSrc === 'string' && imgSrc.trim() !== '') {
+    const img = imgSrc.trim();
+    if (/^https?:\/\//i.test(img)) {
+      // Jika link eksternal, pakai langsung
+      imageUrl = img;
+    } else if (img.startsWith('/')) {
+      // Jika sudah absolute path, pakai langsung
+      imageUrl = img;
+    } else {
+      // Jika hanya nama file, tambahkan folder lokal
+      imageUrl = `/online-shop/img/${img.replace(/^img\//, '')}`;
+    }
+  }
 
   card.innerHTML = `
     <img src="${imageUrl}" alt="${product.name}" class="product-image">

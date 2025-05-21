@@ -199,7 +199,7 @@ function create_product() {
     $price = (float)$data['price'];
     $category_id = (int)$data['category_id'];
     $stock = isset($data['stock']) ? (int)$data['stock'] : 0;
-    $is_featured = isset($data['is_featured']) ? (bool)$data['is_featured'] : false;
+    $is_featured = (isset($data['is_featured']) && intval($data['is_featured']) === 1) ? true : false;
     $image = isset($data['image']) ? sanitize($data['image']) : null;
     
     // Validate inputs
@@ -345,12 +345,11 @@ function update_product() {
         $params[] = $stock;
     }
     
-    // Add is_featured if provided
-    if (isset($data['is_featured'])) {
-        $is_featured = (bool)$data['is_featured'];
-        $update_fields[] = "is_featured = $" . $param_index++;
-        $params[] = $is_featured;
-    }
+    // Add is_featured (selalu update, default false jika tidak ada)
+    $is_featured = !empty($data['is_featured']) && ($data['is_featured'] == 1 || $data['is_featured'] === true || $data['is_featured'] === 'true');
+
+    // $is_featured = !empty($data['is_featured']) && ($data['is_featured'] == 1 || $data['is_featured'] === true || $data['is_featured'] === 'true');
+
     
     // Add image if provided
     if (isset($data['image'])) {

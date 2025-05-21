@@ -8,7 +8,7 @@ $DB_HOST = "localhost";
 $DB_PORT = "5432";
 $DB_NAME = "online-shop";
 $DB_USER = "postgres";
-$DB_PASS = "postgres";
+$DB_PASS = "130506";
 
 $conn = pg_connect("host=$DB_HOST port=$DB_PORT dbname=$DB_NAME user=$DB_USER password=$DB_PASS");
 if (!$conn) {
@@ -49,7 +49,7 @@ if ($action === 'register') {
         [$name, $email, $hashedPassword, $phone]);
 
     if ($insert) {
-        echo json_encode(["success" => true, "message" => "Registration successful"]);
+        echo json_encode(['success' => true, 'message' => 'Registration successful!']);
     } else {
         echo json_encode(["error" => true, "message" => "Registration failed"]);
     }
@@ -58,31 +58,27 @@ if ($action === 'register') {
     $email = trim($data['email'] ?? '');
     $password = trim($data['password'] ?? '');
 
-    if (!$email || !$password) {
-        echo json_encode(["error" => true, "message" => "Email and password are required"]);
-        exit;
-    }
+    $result = pg_query_params($conn, "SELECT * FROM pengguna WHERE email = $1", [$email]);
+    $user = pg_fetch_assoc($result);
 
-    $result = pg_query_params($conn, "SELECT id, name, password FROM pengguna WHERE email = $1", [$email]);
+    if ($user && password_verify($password, $user['password'])) {
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['is_seller'] = $user['is_seller'];
 
-    if ($row = pg_fetch_assoc($result)) {
-        if (password_verify($password, $row['password'])) {
-            echo json_encode([
-                "success" => true,
-                "message" => "Login successful",
-                "user" => [
-                    "id" => $row['id'],
-                    "name" => $row['name'],
-                    "email" => $email
-                ]
-            ]);
-        } else {
-            echo json_encode(["error" => true, "message" => "Incorrect password"]);
-        }
+        echo json_encode([
+            'success' => true,
+            'user' => [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email']
+            ]
+        ]);
     } else {
-        echo json_encode(["error" => true, "message" => "User not found"]);
+        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
     }
-
+    exit;
 } else {
     echo json_encode(["error" => true, "message" => "Unknown action"]);
 }

@@ -1,5 +1,8 @@
 <?php
+// session_start();
 require_once '../php/config.php';
+session_start();
+// var_dump($_SESSION);
 
 // Start session
 ensure_session_started();
@@ -10,11 +13,19 @@ if (!is_authenticated()) {
     header("Location: login.html");
     exit;
 }
+// function is_seller() {
+//     return isset($_SESSION['is_seller']) && $_SESSION['is_seller'];
+// }
+
+// function is_seller() {
+//     return isset($_SESSION['is_seller']) && $_SESSION['is_seller'];
+// }
 
 if (!is_seller()) {
     // Redirect to homepage with error message
     header("Location: /?error=not_seller");
     exit;
+    
 }
 
 // Get user data
@@ -148,7 +159,7 @@ function format_price($price) {
           </div>
           <nav>
             <ul class="nav-links">
-              <li><a href="#">Home</a></li>
+              <li><a href="#" >Home</a></li>
               <li><a href="shop.html">Shop</a></li>
               <li><a href="about.html">About</a></li>
               <li><a href="contact.html">Contact</a></li>
@@ -417,7 +428,7 @@ function format_price($price) {
                   </select>
                 </div>
                 <div class="form-group checkbox-group">
-                  <input type="checkbox" id="product-featured" name="is_featured">
+                  <input type="checkbox" id="product-featured" name="is_featured" value="1">
                   <label for="product-featured">Featured Product</label>
                 </div>
               </div>
@@ -491,4 +502,4 @@ function format_price($price) {
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/dashboard.js"></script>
   </body>
-</html> 
+</html>

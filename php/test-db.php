@@ -7,5 +7,8 @@ include 'config.php';
 $conn = db_connect();
 if ($conn) {
     echo "Koneksi berhasil ke database PostgreSQL!";
+} else {
+    echo "Koneksi gagal ke database PostgreSQL!";
 }
 ?>
+

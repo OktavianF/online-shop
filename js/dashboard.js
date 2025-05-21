@@ -183,40 +183,67 @@ function loadProductData(productId) {
 }
 
 // Save Product (Create or Update)
-function saveProduct() {
+async function saveProduct() {
   const productId = document.getElementById('product-id').value;
   const isUpdate = productId !== '';
-  
-  // Get form data
+
+  // Ambil data form
   const formData = new FormData(productForm);
-  const productData = {
-    name: formData.get('name'),
-    description: formData.get('description'),
-    price: parseFloat(formData.get('price')),
-    stock: parseInt(formData.get('stock')),
-    category_id: parseInt(formData.get('category_id')),
-    is_featured: formData.get('is_featured') === 'on',
-    image: formData.get('image')
-  };
-  
+
+
+  // Ambil status checkbox is_featured dengan benar
+  const isFeaturedChecked = document.getElementById('product-featured').checked;
+
+const productData = {
+  name: formData.get('name'),
+  description: formData.get('description'),
+  price: parseFloat(formData.get('price')),
+  stock: parseInt(formData.get('stock')),
+  category_id: parseInt(formData.get('category_id')),
+  is_featured: document.getElementById('product-featured').checked ? 1 : 0,
+  image: formData.get('image')
+};
+
   if (isUpdate) {
     productData.id = productId;
   }
-  
-  // For a real app, we would send this data to the server
-  // For this demo, we'll simulate success and reload the page
-  
-  // Show loading state
+
+  // Tampilkan loading
   saveProductBtn.disabled = true;
   saveProductBtn.innerHTML = '<span class="loader-small"></span> Saving...';
-  
-  setTimeout(() => {
-    // Show success message
-    showToast(`Product ${isUpdate ? 'updated' : 'created'} successfully`, 'success');
-    
-    // Reload page to show changes
-    window.location.reload();
-  }, 1000);
+
+  try {
+    const response = await fetch('../php/api/products.php', {
+      method: isUpdate ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productData)
+    });
+
+    const text = await response.text();
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (e) {
+      showToast('Invalid server response', 'error');
+      saveProductBtn.disabled = false;
+      saveProductBtn.innerHTML = isUpdate ? 'Update Product' : 'Save Product';
+      return;
+    }
+
+    if (result.success) {
+      showToast(result.message || `Product ${isUpdate ? 'updated' : 'created'} successfully`, 'success');
+      window.location.reload();
+    } else {
+      showToast(result.message || 'Failed to save product', 'error');
+    }
+  } catch (error) {
+    showToast('Failed to save product', 'error');
+  } finally {
+    saveProductBtn.disabled = false;
+    saveProductBtn.innerHTML = isUpdate ? 'Update Product' : 'Save Product';
+  }
 }
 
 // Delete Product
@@ -265,13 +292,7 @@ function loadOrderDetails(orderId) {
   
   // For a real app, we would fetch the order data from the server
   // For this demo, we'll create mock data
-  
-  // Show loading state
-  orderDetails.innerHTML = '<div class="loader"></div>';
-  orderActions.innerHTML = '';
-  
   setTimeout(() => {
-    // Mock order data
     const order = {
       id: orderId,
       customer: {
@@ -563,3 +584,33 @@ function showToast(message, type = 'info') {
     }, 300);
   }, 3000);
 }
+
+
+
+// Delete product event listener
+document.addEventListener('click', async function(e) {
+  if (e.target.closest('.delete-product')) {
+    const btn = e.target.closest('.delete-product');
+    const productId = btn.dataset.id;
+    if (confirm('Yakin ingin menghapus produk ini?')) {
+      try {
+        const res = await fetch('../php/api/products.php', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: productId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Produk berhasil dihapus');
+          // Panggil ulang fetchProducts() atau reload halaman
+          location.reload();
+        } else {
+          alert(data.message || 'Gagal menghapus produk');
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan koneksi');
+      }
+    }
+  }
+});
+

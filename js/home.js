@@ -51,9 +51,20 @@ function displayFeaturedProducts(products) {
 function createProductCard(product) {
   const card = document.createElement('div');
   card.className = 'product-card';
-  
-  const imageUrl = product.image_url ? `/online-shop/${product.image_url.replace(/^\/?online-shop\//, '')}` : '/online-shop/img/default.jpg';
-  
+
+  let imageUrl = '/online-shop/img/default.jpg';
+  const imgSrc = product.image || product.image_url;
+  if (imgSrc) {
+    const img = imgSrc.trim();
+    if (/^https?:\/\//i.test(img)) {
+      imageUrl = img;
+    } else if (img.startsWith('/')) {
+      imageUrl = img;
+    } else {
+      imageUrl = `/online-shop/img/${img.replace(/^img\//, '')}`;
+    }
+  }
+
   card.innerHTML = `
     <img src="${imageUrl}" alt="${product.name}">
     <div class="product-info">
@@ -68,7 +79,7 @@ function createProductCard(product) {
       </div>
     </div>
   `;
-  
+
   // Add event listener to the add to cart button
   const addToCartBtn = card.querySelector('.add-to-cart');
   addToCartBtn.addEventListener('click', (e) => {
@@ -76,6 +87,6 @@ function createProductCard(product) {
     const { id, name, price, image } = e.currentTarget.dataset;
     addToCart(id, name, parseFloat(price), 1, image);
   });
-  
+
   return card;
 }

@@ -1,16 +1,16 @@
 <?php
 // Database connection settings
-$host = "localhost";
-$port = "5432";
-$dbname = "online-shop";
-$user = "postgres";
-$password = "postgres";
+$DB_HOST = "localhost";
+$DB_PORT = "5432";
+$DB_NAME = "online-shop";
+$DB_USER = "postgres"; // pastikan user ini benar
+$DB_PASS = "130506";   // pastikan password ini benar
 
 // Establish database connection
 function db_connect() {
-    global $host, $port, $dbname, $user, $password;
+    global $DB_HOST, $DB_PORT, $DB_NAME, $DB_USER, $DB_PASS;
     
-    $connection_string = "host=$host port=$port dbname=$dbname user=$user password=$password";
+    $connection_string = "host=$DB_HOST port=$DB_PORT dbname=$DB_NAME user=$DB_USER password=$DB_PASS";
     
     $conn = pg_pconnect($connection_string);
     
@@ -102,7 +102,7 @@ function is_ajax() {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 }
 
-// Start session if not already started
+// Start session if not already startedzz
 function ensure_session_started() {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
@@ -121,10 +121,10 @@ function is_authenticated() {
 }
 
 // Check if user is a seller
-function is_seller() {
-    ensure_session_started();
-    return isset($_SESSION['is_seller']) && $_SESSION['is_seller'] === true;
-}
+// function is_seller() {
+//     ensure_session_started();
+//     return isset($_SESSION['is_seller']) && $_SESSION['is_seller'] === true;
+// }
 
 // Require authentication
 function require_auth() {
@@ -139,4 +139,9 @@ function require_seller() {
     if (!is_seller()) {
         json_error("Seller privileges required", 403);
     }
+}
+
+function is_seller() {
+    ensure_session_started();
+    return isset($_SESSION['is_seller']) && $_SESSION['is_seller'];
 }
