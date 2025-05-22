@@ -66,14 +66,14 @@ function initProductModal() {
   });
   
   // Delete product confirmation
-  deleteProductBtns.forEach(button => {
-    button.addEventListener('click', (e) => {
-      const productId = e.currentTarget.dataset.id;
-      if (confirm('Are you sure you want to delete this product?')) {
-        deleteProduct(productId);
-      }
-    });
-  });
+  // deleteProductBtns.forEach(button => {
+  //   button.addEventListener('click', (e) => {
+  //     const productId = e.currentTarget.dataset.id;
+  //     if (confirm('Are you sure you want to delete this product?')) {
+  //       deleteProduct(productId);
+  //     }
+  //   });
+  // });
   
   // Submit product form
   productForm?.addEventListener('submit', (e) => {
@@ -190,10 +190,6 @@ async function saveProduct() {
   // Ambil data form
   const formData = new FormData(productForm);
 
-
-  // Ambil status checkbox is_featured dengan benar
-  const isFeaturedChecked = document.getElementById('product-featured').checked;
-
 const productData = {
   name: formData.get('name'),
   description: formData.get('description'),
@@ -201,6 +197,7 @@ const productData = {
   stock: parseInt(formData.get('stock')),
   category_id: parseInt(formData.get('category_id')),
   is_featured: document.getElementById('product-featured').checked ? 1 : 0,
+  // Menggunakan formData.get('image') untuk mendapatkan file gambar
   image: formData.get('image')
 };
 
@@ -592,7 +589,7 @@ document.addEventListener('click', async function(e) {
   if (e.target.closest('.delete-product')) {
     const btn = e.target.closest('.delete-product');
     const productId = btn.dataset.id;
-    if (confirm('Yakin ingin menghapus produk ini?')) {
+    if (confirm('Are you sure you want to delete this product?')) {
       try {
         const res = await fetch('../php/api/products.php', {
           method: 'DELETE',

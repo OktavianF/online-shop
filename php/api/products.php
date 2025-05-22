@@ -394,36 +394,35 @@ function update_product() {
     ]);
 }
 
-// Delete a product
 function delete_product() {
-    // Get user ID from session
+    error_log("delete_product function called");
     $user_id = get_user_id();
+    error_log("User ID: " . $user_id);
     
-    // Parse request body
     $data = json_decode(file_get_contents('php://input'), true);
+    error_log("Request data: " . print_r($data, true));
     
-    // Validate product ID
     if (!isset($data['id'])) {
         json_error("Product ID is required");
     }
     
     $product_id = (int)$data['id'];
+    error_log("Product ID: " . $product_id);
     
     if ($product_id <= 0) {
         json_error("Invalid product ID");
     }
     
-    // Check if product exists and belongs to the user
     $conn = db_connect();
     $check_query = "SELECT id FROM produk WHERE id = $1 AND user_id = $2";
     $check_result = pg_query_params($conn, $check_query, [$product_id, $user_id]);
+    error_log("Check query rows: " . pg_num_rows($check_result));
     
     if (pg_num_rows($check_result) === 0) {
         db_close($conn);
         json_error("Product not found or you don't have permission to delete it", 404);
     }
     
-    // Delete product
     $delete_query = "DELETE FROM produk WHERE id = $1";
     $delete_result = pg_query_params($conn, $delete_query, [$product_id]);
     
@@ -434,7 +433,6 @@ function delete_product() {
     
     db_close($conn);
     
-    // Return success
     json_response([
         "success" => true,
         "message" => "Product deleted successfully"
