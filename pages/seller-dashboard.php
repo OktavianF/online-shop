@@ -501,5 +501,6 @@ function format_price($price) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/dashboard.js"></script>
+    <script type="modul" src="../js/saveProduct.js"></script>
   </body>
 </html>
