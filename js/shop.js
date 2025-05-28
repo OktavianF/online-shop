@@ -310,26 +310,63 @@ function setSorting(sortBy, sortDirection) {
 }
 
 // Update Category Filters
-function updateCategoryFilters() {
-  const allCategoriesCheckbox = document.getElementById('category-all');
+// function updateCategoryFilters() {
+//   const allCategoriesCheckbox = document.getElementById('category-all');
   
-  // Check if 'All Categories' is checked
-  if (allCategoriesCheckbox.checked) {
-    // Uncheck all other category checkboxes
-    categoryCheckboxes.forEach(checkbox => {
-      if (checkbox.id !== 'category-all') {
-        checkbox.checked = false;
-      }
-    });
+//   // Check if 'All Categories' is checked
+//   if (allCategoriesCheckbox.checked) {
+//     // Uncheck all other category checkboxes
+//     categoryCheckboxes.forEach(checkbox => {
+//       if (checkbox.id !== 'category-all') {
+//         checkbox.checked = false;
+//       }
+//     });
     
-    state.filters.categories = [];
+//     state.filters.categories = [];
+//   } else {
+//     // Get selected categories
+//     const selectedCategories = Array.from(categoryCheckboxes)
+//       .filter(checkbox => checkbox.checked && checkbox.id !== 'category-all')
+//       .map(checkbox => checkbox.value);
+    
+//     // If no categories selected, check 'All Categories'
+//     if (selectedCategories.length === 0) {
+//       allCategoriesCheckbox.checked = true;
+//       state.filters.categories = [];
+//     } else {
+//       state.filters.categories = selectedCategories;
+//     }
+//   }
+  
+//   state.currentPage = 1;
+//   fetchProducts();
+// }
+
+// Tambahkan event listener ke semua checkbox kategori
+categoryCheckboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', () => handleCategoryCheckboxChange(checkbox));
+});
+
+// Handler tunggal untuk semua checkbox
+function handleCategoryCheckboxChange(changedCheckbox) {
+  const allCategoriesCheckbox = document.getElementById('category-all');
+
+  if (changedCheckbox.id === 'category-all') {
+    if (changedCheckbox.checked) {
+      categoryCheckboxes.forEach(checkbox => {
+        if (checkbox.id !== 'category-all') checkbox.checked = false;
+      });
+      state.filters.categories = [];
+    }
   } else {
-    // Get selected categories
+    if (changedCheckbox.checked) {
+      allCategoriesCheckbox.checked = false;
+    }
+
     const selectedCategories = Array.from(categoryCheckboxes)
       .filter(checkbox => checkbox.checked && checkbox.id !== 'category-all')
       .map(checkbox => checkbox.value);
-    
-    // If no categories selected, check 'All Categories'
+
     if (selectedCategories.length === 0) {
       allCategoriesCheckbox.checked = true;
       state.filters.categories = [];
@@ -337,10 +374,11 @@ function updateCategoryFilters() {
       state.filters.categories = selectedCategories;
     }
   }
-  
+
   state.currentPage = 1;
   fetchProducts();
 }
+
 
 // Update Price Filters
 function updatePriceFilters() {

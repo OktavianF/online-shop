@@ -87,9 +87,11 @@ function createCartItemElement(item) {
   const cartItem = document.createElement('div');
   cartItem.className = 'cart-item';
   cartItem.dataset.id = item.id;
+
+  const imageSrc = item.image.startsWith('http') ? item.image : `../${item.image}`;
   
   cartItem.innerHTML = `
-    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+    <img src="${imageSrc}" alt="${item.name}" class="cart-item-image">
     <div class="cart-item-details">
       <h3 class="cart-item-name">${item.name}</h3>
       <p class="cart-item-price">${formatCurrency(item.price)}</p>
